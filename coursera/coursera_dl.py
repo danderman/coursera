@@ -318,6 +318,7 @@ def download_lectures(downloader,
                       sections,
                       file_formats,
                       overwrite=False,
+                      interactive=False,
                       skip_download=False,
                       section_filter=None,
                       lecture_filter=None,
@@ -353,6 +354,7 @@ def download_lectures(downloader,
         return '%02d_%02d_%s%s.%s' % (secnum, lecnum, lecname, title, fmt)
 
     for (secnum, (section, lectures)) in enumerate(sections):
+        if (interactive and raw_input("Download %s (Y/n)?" % (section,)) == "n"): continue
         if section_filter and not re.search(section_filter, section):
             logging.debug('Skipping b/c of sf: %s %s', section_filter,
                           section)
@@ -500,6 +502,12 @@ def parseArgs():
                         action='store_true',
                         default=False,
                         help='download "about" metadata. (Default: False)')
+    parser.add_argument('-i',
+                        '--interactive',
+                        dest='interactive',
+                        action='store_true',
+                        default=False,
+                        help='ask to download each section')
     parser.add_argument('-b',
                         '--preview',
                         dest='preview',
@@ -749,6 +757,7 @@ def download_class(args, class_name):
         sections,
         args.file_formats,
         args.overwrite,
+        args.interactive,
         args.skip_download,
         args.section_filter,
         args.lecture_filter,
