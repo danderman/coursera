@@ -353,8 +353,18 @@ def download_lectures(downloader,
             title = '_' + title
         return '%02d_%02d_%s%s.%s' % (secnum, lecnum, lecname, title, fmt)
 
+    if interactive:
+        print "Which sections would you like to download?"
+        for (secnum, (section, lectures)) in enumerate(sections):
+            print '%2d. %s' % (secnum, section)
+        seclist = map(int, 
+            raw_input("Enter numbers in a space seperated list: ").split())
+
     for (secnum, (section, lectures)) in enumerate(sections):
-        if (interactive and raw_input("Download %s (Y/n)?" % (section,)) == "n"): continue
+        if interactive and secnum not in seclist:
+            logging.debug( 'Skipping b/c section %d not in %s', secnum,
+                          seclist)
+            continue
         if section_filter and not re.search(section_filter, section):
             logging.debug('Skipping b/c of sf: %s %s', section_filter,
                           section)
