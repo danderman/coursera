@@ -354,13 +354,14 @@ def download_lectures(downloader,
         return '%02d_%02d_%s%s.%s' % (secnum, lecnum, lecname, title, fmt)
 
     if interactive:
-        print "Which sections would you like to download?"
+        logging.info("Which sections would you like to download?")
+        global input
         try: input = raw_input
         except NameError: pass
         for (secnum, (section, lectures)) in enumerate(sections):
-            print '%2d. %s' % (secnum, section)
-        seclist = map(int, 
-            input("Enter numbers in a space seperated list: ").split())
+            logging.info( '%2d. %s', secnum, section)
+        seclist = list(map(int, 
+            input("Enter numbers in a space seperated list: ").split()))
 
     for (secnum, (section, lectures)) in enumerate(sections):
         if interactive and secnum not in seclist:
