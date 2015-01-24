@@ -355,10 +355,12 @@ def download_lectures(downloader,
 
     if interactive:
         print "Which sections would you like to download?"
+        try: input = raw_input
+        except NameError: pass
         for (secnum, (section, lectures)) in enumerate(sections):
             print '%2d. %s' % (secnum, section)
         seclist = map(int, 
-            raw_input("Enter numbers in a space seperated list: ").split())
+            input("Enter numbers in a space seperated list: ").split())
 
     for (secnum, (section, lectures)) in enumerate(sections):
         if interactive and secnum not in seclist:
