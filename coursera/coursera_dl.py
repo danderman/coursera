@@ -916,6 +916,7 @@ def download_class(args, class_name):
                                   sections,
                                   args.file_formats,
                                   args.overwrite,
+                                  args.interactive,
                                   args.skip_download,
                                   args.section_filter,
                                   args.lecture_filter,
